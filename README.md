@@ -58,6 +58,48 @@ Recurrence → Get OneNote → HTML→Text → HTTP→OpenAI → Create OneNote 
 - When Cursor detects a block of raw bullets in any text file, it will suggest a rewrite using the Timesheet Engine prompt.
 - You control acceptance. The rules live in `/.cursor/prompts/`.
 
+## No‑cost Windows automation (recommended)
+Avoids Power Automate premium HTTP connector. Uses Outlook and Task Scheduler on Windows.
+
+1) Configure Email to OneNote (free)
+- In OneNote settings, set your default notebook/section for emails.
+- You will send to `me@onenote.com`; OneNote files the page into your default section.
+
+2) Daily schedule via Task Scheduler
+- Script: `scripts/schedule_timesheet.ps1`
+- It will:
+  - Read raw bullets from `examples/raw.txt`
+  - Run the CLI to rewrite entries (local heuristics by default)
+  - Email the result to `me@onenote.com` via Outlook
+  - Clear `examples/raw.txt` after a successful send
+
+3) Create the task
+- Open Task Scheduler → Create Task…
+- Triggers:
+  - New → Daily → 7:00 PM → Time zone: America/Los_Angeles
+- Actions:
+  - New → Program/script: `powershell`
+  - Add arguments:
+    ```
+    -ExecutionPolicy Bypass -NoProfile -File "C:\Path\To\project\scripts\schedule_timesheet.ps1"
+    ```
+  - Start in: `C:\Path\To\project\`
+- Conditions: uncheck "Start the task only if the computer is on AC power" if needed.
+- Run with highest privileges: optional.
+
+4) Optional parameters
+- Edit `scripts/schedule_timesheet.ps1` or pass parameters:
+```powershell
+powershell -ExecutionPolicy Bypass -NoProfile -File scripts\schedule_timesheet.ps1 `
+  -RawPath "C:\Path\To\raw.txt" -OutputPath "C:\Path\To\out.txt" `
+  -DefaultClient KOBOLD -UseModel:$false -OneNoteRecipient "me@onenote.com"
+```
+- To enable LLM mode (still no premium connectors; uses your local key):
+```powershell
+$env:OPENAI_API_KEY="sk-..."
+powershell -File scripts\schedule_timesheet.ps1 -UseModel:$true -Model "gpt-4o-mini"
+```
+
 ## Guardrails
 - No invented work; keep to provided facts.
 - Action → result → confirmation; 1–3 sentences per entry.

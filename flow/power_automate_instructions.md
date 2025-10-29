@@ -2,7 +2,8 @@
 
 ## Prereqs
 - Environment variable: `OPENAI_API_KEY` (stores your key securely).
-- Scratchpad OneNote Page ID: `1-1401c2e5-ca97-41f7-bfc6-55c1bf00853d`.
+- Scratchpad OneNote Section ID (source): `2A9AA28A-B73F-4287-AFD3-43A6908BA50C`.
+- Client‑Ready OneNote Section ID (destination): `1401C2E5-CA97-41F7-BFC6-55C1BF00853D`.
 
 ## Steps
 1) **Recurrence**
@@ -10,7 +11,8 @@
    - Time zone: America/Los_Angeles
 
 2) **OneNote (Business) → Get page content**
-   - Page Id: `1-1401c2e5-ca97-41f7-bfc6-55c1bf00853d`
+   - If using a fixed scratchpad page, paste that Page Id.
+   - If you prefer section intake, list recent pages in the Scratchpad section and select the most recent.
 
 3) **Content Conversion → HTML to text**
    - Content: `@{body('Get_page_content')}`
@@ -53,7 +55,7 @@
 
 9) **OneNote (Business) → Create page**
    - Notebook: `Timesheets`
-   - Section: `Daily Entries`
+   - Section: `Client Ready` (Section Id: `1401C2E5-CA97-41F7-BFC6-55C1BF00853D`)
    - Title: `@{outputs('Page_Title')}`
    - Content: If OneNote requires HTML, wrap it:
    ```
@@ -66,3 +68,4 @@
 - If the HTTP response needs parsing, insert **Parse JSON** (use a sample response).
 - Model can be swapped; `gpt-4o-mini` is cost‑efficient and sharp.
 - To append to an existing page instead, use the **Append content** action.
+- If avoiding premium HTTP, use the included Windows Task Scheduler script in `scripts/schedule_timesheet.ps1` to email results to OneNote (no additional licensing).
