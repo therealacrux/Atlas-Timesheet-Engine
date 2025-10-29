@@ -52,14 +52,21 @@ if ([string]::IsNullOrWhiteSpace($outText)) {
 	exit 0
 }
 
+$delivered = $false
 if ($UseOneNoteCom) {
-	if (-not $SectionId) { throw "-SectionId is required when -UseOneNoteCom is set." }
-	Write-Host "Creating OneNote page via OneNote COM..."
-	$sendScript = Join-Path $ProjectRoot "scripts/send_to_onenote.ps1"
-	if (-not (Test-Path -LiteralPath $sendScript)) { throw "Cannot find $sendScript" }
-	& powershell -ExecutionPolicy Bypass -NoProfile -File $sendScript -SectionId $SectionId -Title "Timesheet $(Get-Date -Format 'yyyy-MM-dd')" -Content $outText
-} else {
-	# Create email to OneNote via Outlook COM
+	try {
+		if (-not $SectionId) { throw "-SectionId is required when -UseOneNoteCom is set." }
+		Write-Host "Creating OneNote page via OneNote COM..."
+		$sendScript = Join-Path $ProjectRoot "scripts/send_to_onenote.ps1"
+		if (-not (Test-Path -LiteralPath $sendScript)) { throw "Cannot find $sendScript" }
+		& powershell -STA -ExecutionPolicy Bypass -NoProfile -File $sendScript -SectionId $SectionId -Title "Timesheet $(Get-Date -Format 'yyyy-MM-dd')" -Content $outText
+		$delivered = $true
+	} catch {
+		Write-Warning "OneNote COM failed: $($_.Exception.Message). Falling back to Outlook email path."
+	}
+}
+
+if (-not $delivered) {
 	Write-Host "Sending to OneNote via Outlook..."
 	$outlook = New-Object -ComObject Outlook.Application
 	$mail = $outlook.CreateItem(0)
@@ -67,8 +74,11 @@ if ($UseOneNoteCom) {
 	$mail.Subject = "Timesheet $(Get-Date -Format 'yyyy-MM-dd')"
 	$mail.Body = $outText
 	$mail.Send()
+	$delivered = $true
 }
 
 # Clear raw file after successful send
-Set-Content -LiteralPath $RawPath -Value "" -NoNewline
-Write-Host "Done. Entries sent and raw cleared."
+if ($delivered) {
+	Set-Content -LiteralPath $RawPath -Value "" -NoNewline
+	Write-Host "Done. Entries sent and raw cleared."
+}

@@ -162,7 +162,8 @@ def apply_default_client(text: str, default_client: Optional[str]) -> str:
 	lines = split_lines(text)
 	finalized: List[str] = []
 	for l in lines:
-		if re.search(r"\s[-–—]\s([A-Z]{2,})\s$", l):
+		# If the line already contains any client suffix at the end (e.g., " – NR"), do not append default
+		if re.search(r"\s[-–—]\s([A-Z]{2,})(\s*|\s[-–—].*)$", l):
 			finalized.append(l)
 		else:
 			finalized.append(f"{l} – {code}")

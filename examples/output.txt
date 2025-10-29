@@ -1,8 +1,11 @@
+10/28. – KOBOLD
 Assisted the user with keyboard/mouse connectivity. Re-enabled Bluetooth, re-paired devices, and rebooted to confirm stability. – NR – KOBOLD
-Responded to a printer issue; found a toner spill. Contained the mess and scheduled vendor service. – TCG – KOBOLD
-Completed new-hire onboarding for the new hire. Configured workstation, core apps (Zoom/Slack/Outlook/Adobe), and MFA; confirmed readiness. – NR – KOBOLD
-Reinstated the user in Slack. Confirmed access and restored collaboration. – TCG – KOBOLD
+Assisted the user with keyboard/mouse connectivity. Re-enabled Bluetooth, re-paired devices, and rebooted to confirm stability. – NR – KOBOLD
 Received and logged equipment for incoming devices. Updated inventory records for accurate tracking. – TCG – KOBOLD
+Responded to a printer issue; identified a device fault. Performed remediation and confirmed functionality. – TCG – KOBOLD
+Reinstated the user in Slack. Confirmed access and restored collaboration. – TCG – KOBOLD
 Procured webcams via Amazon to support video conferencing. – NR – KOBOLD
-Verified delivery of the referenced email for Michael Gao and guided broader search across mailbox folders. – NR – KOBOLD
+Replaced Dannys monitor. – TCG – KOBOLD
+Verified delivery of the referenced email for the user and guided broader search across mailbox folders. – NR – KOBOLD
 Recovered the requested file via CloudAlly and restored Karissa's access; verified integrity. – TCG – KOBOLD
+Assisted Courtney Cappa regarding an encrypted message from american express. Content was not viewable due to encryption and missing browser component. Contacted sender who advised the spreadsheet was viewable online as well. – NR – KOBOLD
