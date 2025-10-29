@@ -1,0 +1,2 @@
+openai>=1.36.0
+pyperclip>=1.8.2
