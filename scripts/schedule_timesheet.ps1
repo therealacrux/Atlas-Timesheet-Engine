@@ -9,7 +9,8 @@ param(
 	[string]$PromptPath = "$PSScriptRoot\..\prompt\timesheet_engine_prompt.md",
 	[string]$OneNoteRecipient = "me@onenote.com",
 	[switch]$UseOneNoteCom = $false,
-	[string]$SectionId = ""
+	[string]$SectionId = "",
+	[switch]$Approval = $true
 )
 
 $ErrorActionPreference = "Stop"
@@ -36,11 +37,16 @@ $commonArgs = @("$cli", "$RawPath", "--out", "$OutputPath", "--default-client", 
 if ($UseModel) {
 	$commonArgs += @("--model", $Model, "--prompt", $PromptPath)
 }
+if ($Approval) { $commonArgs += "--approval" }
 
 # Run CLI
 Write-Host "Running Timesheet Engine..."
 $pythonArgs = $commonArgs -join ' '
-$proc = Start-Process -FilePath $PythonPath -ArgumentList $pythonArgs -NoNewWindow -PassThru -Wait
+$proc = Start-Process -FilePath $PythonPath -ArgumentList $pythonArgs -NoNewWindow -Wait -PassThru
+if ($proc.ExitCode -eq 2) {
+	Write-Host "Aborted by user during approval. Nothing sent or cleared."
+	exit 2
+}
 if ($proc.ExitCode -ne 0) {
 	throw "Timesheet Engine failed with exit code $($proc.ExitCode)"
 }

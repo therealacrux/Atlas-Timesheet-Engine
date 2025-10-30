@@ -58,6 +58,28 @@ Recurrence → Get OneNote → HTML→Text → HTTP→OpenAI → Create OneNote 
 - When Cursor detects a block of raw bullets in any text file, it will suggest a rewrite using the Timesheet Engine prompt.
 - You control acceptance. The rules live in `/.cursor/prompts/`.
 
+## Approval Mode (Review before Sending)
+- By default, both the CLI and the scheduler script pause for your approval before delivering or clearing `examples/raw.txt`.
+- You’ll see the proposed Markdown output in your terminal; approve or reject interactively.
+- To skip approval (auto-send), add `--no-approval` to the CLI or `-Approval:$false` to the PowerShell script.
+
+**Examples:**
+```powershell
+powershell -ExecutionPolicy Bypass -NoProfile -File scripts\schedule_timesheet.ps1 -UseOneNoteCom -SectionId "..."
+# You’ll be asked: Approve and send these entries? [y/n]:
+
+# To skip approval:
+powershell -ExecutionPolicy Bypass -NoProfile -File scripts\schedule_timesheet.ps1 -UseOneNoteCom -SectionId "..." -Approval:$false
+```
+
+For ad-hoc/manual review with the CLI itself:
+```bash
+python cli/timesheet_rewriter.py examples/raw.txt --approval
+# Output shown for approval. If approved, saves output; if not, nothing is sent/cleared.
+```
+
+---
+
 ## No‑cost Windows automation (recommended)
 Avoids Power Automate premium HTTP connector. Two delivery options:
 

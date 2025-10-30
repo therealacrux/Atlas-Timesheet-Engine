@@ -170,8 +170,29 @@ def apply_default_client(text: str, default_client: Optional[str]) -> str:
 	return "\n".join(finalized) + ("\n" if finalized else "")
 
 
+def prompt_user_for_approval(text: str) -> bool:
+	print("\n===== Proposed Timesheet Output =====\n")
+	print(text)
+	print("\n======================================\n")
+	while True:
+		resp = input("Approve and send these entries? [y/n]: ").strip().lower()
+		if resp in ("y", "yes"): return True
+		if resp in ("n", "no"): return False
+
+
 def main(argv: Optional[List[str]] = None) -> None:
 	args = parse_args(argv)
+
+	# New: Add argument for approval mode
+	import argparse as _argparse
+	ap = _argparse.ArgumentParser(add_help=False)
+	ap.add_argument('--approval', dest='approval', action='store_true', help='Show output and get approval before delivery')
+	ap.add_argument('--no-approval', dest='approval', action='store_false', help='Skip approval, auto proceed')
+	parsed, _ = ap.parse_known_args()
+	approval = parsed.approval
+
+	if hasattr(args, 'approval'):
+		approval = args.approval
 
 	# Acquire input text
 	if args.from_clipboard:
@@ -196,6 +217,13 @@ def main(argv: Optional[List[str]] = None) -> None:
 
 	if args.default_client:
 		out_text = apply_default_client(out_text, args.default_client)
+
+	# Approval mode: show and confirm before writing or copying
+	if approval:
+		approved = prompt_user_for_approval(out_text)
+		if not approved:
+			print("Aborted by user. Nothing sent or cleared.")
+			sys.exit(2)
 
 	# Emit output
 	if args.out:
