@@ -149,6 +149,10 @@ def parse_args(argv: Optional[List[str]] = None) -> argparse.Namespace:
 	p.add_argument("--prompt", dest="prompt", default="prompt/timesheet_engine_prompt.md", help="Path to prompt md file for LLM mode")
 	p.add_argument("--temperature", type=float, default=0.2, help="Temperature for model mode")
 	p.add_argument("--default-client", dest="default_client", default=None, help="Default client code to append when not detected (e.g., TCG, NR, KOBOLD)")
+	# Approval flags
+	p.add_argument("--approval", dest="approval", action="store_true", help="Show output and require approval before completing")
+	p.add_argument("--no-approval", dest="approval", action="store_false", help="Skip approval prompt, auto proceed")
+	p.set_defaults(approval=False)
 
 	return p.parse_args(argv)
 
@@ -176,23 +180,14 @@ def prompt_user_for_approval(text: str) -> bool:
 	print("\n======================================\n")
 	while True:
 		resp = input("Approve and send these entries? [y/n]: ").strip().lower()
-		if resp in ("y", "yes"): return True
-		if resp in ("n", "no"): return False
+		if resp in ("y", "yes"):
+			return True
+		if resp in ("n", "no"):
+			return False
 
 
 def main(argv: Optional[List[str]] = None) -> None:
 	args = parse_args(argv)
-
-	# New: Add argument for approval mode
-	import argparse as _argparse
-	ap = _argparse.ArgumentParser(add_help=False)
-	ap.add_argument('--approval', dest='approval', action='store_true', help='Show output and get approval before delivery')
-	ap.add_argument('--no-approval', dest='approval', action='store_false', help='Skip approval, auto proceed')
-	parsed, _ = ap.parse_known_args()
-	approval = parsed.approval
-
-	if hasattr(args, 'approval'):
-		approval = args.approval
 
 	# Acquire input text
 	if args.from_clipboard:
@@ -219,7 +214,7 @@ def main(argv: Optional[List[str]] = None) -> None:
 		out_text = apply_default_client(out_text, args.default_client)
 
 	# Approval mode: show and confirm before writing or copying
-	if approval:
+	if args.approval:
 		approved = prompt_user_for_approval(out_text)
 		if not approved:
 			print("Aborted by user. Nothing sent or cleared.")

@@ -1,25 +1,4 @@
-amelie no space left on drive deleted funtioning again. – TCG
-samantha zoom added send on behalf zoom micheala - tracking. – KOBOLD
-Procured webcams via vendor to support video conferencing. – NR
-Procured webcams via vendor to support video conferencing. – TCG
-jen mayo  configured macbook air. installed apps and configured accordingly. deployed - CHERNIN. – KOBOLD
-imanage support info for jeff figueroa - CHERNIN. – KOBOLD
-COnfigured TV internet connectivity for amelie. – TCG
-provied 3.5 mm audio termination plug for presentation in ceasar. – NR
-remoted in marsellas machine and confirmed micorsoft outtage affecting zoom outlook plugin. – TCG
-Smamantha informed no zoom functionilty in outlook for scheduling, investigated, caused microsoft outtage. – TCG
-installed imanage for jen mayo on new laptop - CHERNIN. – KOBOLD
-re-gister mfa for jen mayo new phone, no mfa for current account. - CHERNIN. – KOBOLD
-10/28. – KOBOLD
+10/29. – KOBOLD
 Assisted the user with keyboard/mouse connectivity. Re-enabled Bluetooth, re-paired devices, and rebooted to confirm stability. – NR
-Assisted the user with keyboard/mouse connectivity. Re-enabled Bluetooth, re-paired devices, and rebooted to confirm stability. – NR
-Received and logged equipment for incoming devices. Updated inventory records for accurate tracking. – TCG
-Responded to a printer issue; identified a device fault. Performed remediation and confirmed functionality. – TCG
-Reinstated the user in Slack. Confirmed access and restored collaboration. – TCG
-Procured webcams via Amazon to support video conferencing. – NR
-Replaced Dannys monitor. – TCG
-Verified delivery of the referenced email for the user and guided broader search across mailbox folders. – NR
-Recovered the requested file via CloudAlly and restored Karissa's access; verified integrity. – TCG
-Assisted Courtney Cappa regarding an encrypted message from american express. Content was not viewable due to encryption and missing browser component. Contacted sender who advised the spreadsheet was viewable online as well. – NR
-Responded to a printer issue; found a toner spill. Performed remediation and confirmed functionality. – TCG
-Completed new-hire onboarding for the new hire. Configured workstation, core apps (Zoom/Slack/Outlook/Adobe), and MFA; confirmed readiness. – KOBOLD
+Responded to a printer issue; found a toner spill. Contained the mess and scheduled vendor service. – TCG
+Completed new-hire onboarding for the new hire. Configured workstation, core apps (Zoom/Slack/Outlook/Adobe), and MFA; confirmed readiness. – NR
